@@ -12,11 +12,11 @@ const morgan = require("morgan"); // Some nice logging
  * DB_PORT er porten til databasen. Det plejer at være 5432, så den behøver man nok ikke ændre.
  */
 const PORT = process.env.PORT || 8080;
-const DB_USER = process.env.DB_USER || "kdorland";
-const DB_HOST = process.env.DB_HOST || "localhost";
-const DB_NAME = process.env.DB_NAME || "kristians-database";
-const DB_PW = process.env.DB_PW || "password";
-const DB_PORT = process.env.DB_PORT || 5432;
+const DB_USER = process.env.DB_USER
+const DB_HOST = process.env.DB_HOST
+const DB_NAME = process.env.DB_NAME
+const DB_PW = process.env.DB_PW
+const DB_PORT = process.env.DB_PORT
 
 /**
  * I stedet for at ændre på DB-værdierne i koden herover, er det bedre at gøre det som
