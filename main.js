@@ -61,17 +61,50 @@ app.use(morgan("combined"));
 /*
  * Her defineres API'en.
  * Man laver lige så mange endpoints man har lyst til. Jeg har lavet et enkelt til
- * querien `SELECT 'Hello, World' as message`.
  */
 app.post("/api/helloQuery", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT year, primary_energy_consum, entity FROM energy;`;
+    const query = `SELECT year FROM energy;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
-      "data": queryData.rows,
+      "year": queryData.rows,
+    })
+  } catch (error) {
+    // Hvis query fejler, fanges det her.
+    // Send fejlbesked tilbage til JavaScript
+    res.json({
+      "ok": false,
+      "message": error.message,
+    })
+  }
+  try {
+    // Lav query
+    const query = `SELECT primary_energy_consum FROM energy;`;
+    queryData = await client.query(query);
+    // Giv svar tilbage til JavaScript
+    res.json({
+      "ok": true,
+      "primary_energy": queryData.rows,
+    })
+  } catch (error) {
+    // Hvis query fejler, fanges det her.
+    // Send fejlbesked tilbage til JavaScript
+    res.json({
+      "ok": false,
+      "message": error.message,
+    })
+  }
+  try {
+    // Lav query
+    const query = `SELECT entity FROM energy;`;
+    queryData = await client.query(query);
+    // Giv svar tilbage til JavaScript
+    res.json({
+      "ok": true,
+      "entity": queryData.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.
