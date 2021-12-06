@@ -24,13 +24,12 @@
       .attr("height", h);
 
     // Indsæt tekst fra postgres query som eksempel
-    svg.selectAll("text")
+    svg.selectAll("circle")
       .data(data)
       .enter()
-      .append("text")
-      .attr("x", 20)
-      .attr("y", 20)
-      .text(function (d) { return "Svar fra databasen: " + d.message; })
+      .append("circle")
+      .attr("cx", d.year)
+      .attr("cy", d.primary_energy_consum)
     });
     </script>
   </body>

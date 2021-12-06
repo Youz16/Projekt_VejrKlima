@@ -66,7 +66,7 @@ app.use(morgan("combined"));
 app.post("/api/helloQuery", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT 'Hello, World' as message`;
+    const query = `SELECT year, primary_energy_consum, entity FROM energy;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
@@ -84,4 +84,4 @@ app.post("/api/helloQuery", async (req, res) => {
 });
 
 // Web-serveren startes.
-app.listen(PORT, () => console.log(`Serveren kører på http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Serveren kører på port ${PORT}`));
