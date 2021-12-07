@@ -9,47 +9,48 @@
   <body>
     <script>
       d3.json("/api/helloQuery", {
-    method: "POST",
-  }).then(function(response) {
-    const data = response.data; // Hent data ud af response
-    console.log(data);
+        method: "POST",
+      }).then(function (response) {
+        const data = response.data; // Hent data ud af response
+        console.log(data);
 
-    // Scale-funktioner
-    const yScale = d3.scaleLinear() // Linæer skalering
-      .domain([0, d3.max(data)]) 
-      .range([0, h - bottomPadding])
+        // Scale-funktioner
+        const yScale = d3.scaleLinear() // Linæer skalering
+          .domain([0, d3.max(data)])
+          .range([0, h - bottomPadding]);
 
-    const xScale = d3.scaleLinear() // Linæer skalering
-      .domain([0, data.length])
-      .range([sidePadding, w - sidePadding])
+        const xScale = d3.scaleLinear() // Linæer skalering
+          .domain([0, data.length])
+          .range([sidePadding, w - sidePadding]);
 
-    // Lav SVG element
-    const svg = d3.select("body")
-      .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+        // Lav SVG element
+        const svg = d3
+          .select("body")
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h);
 
-    // Indsæt tekst fra postgres query som eksempel
-    svg.selectAll("circle")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("cx", function (d, i) {
-        return xScale(i);
-      })
-      .attr("cy", function (d) {
-        return h - yScale(d) - bottomPadding;
-      })
-      .attr("r", 10)
-    });
+        // Lave x-akse med tal
+        const xAxis = d3.axisBottom().scale(xScale);
+        svg.append("g") // "g" er en SVG Group
+          // Aksen flyttes på plads med 'transform'
+          .attr("transform", "translate(0," + (h - bottomPadding) + ")")
+          // d3.js laver sin magi
+          .call(xAxis);
 
-     // Lave x-akse med tal
-     const xAxis = d3.axisBottom().scale(xScale);
-      svg.append("g") // "g" er en SVG Group
-      // Aksen flyttes på plads med 'transform'
-      .attr("transform", "translate(0," + (h - bottomPadding) + ")")
-      // d3.js laver sin magi
-      .call(xAxis);
+        // Indsæt tekst fra postgres query som eksempel
+        svg.selectAll("circle")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("cx", function (d, i) {
+            return xScale(i);
+          })
+          .attr("cy", function (d) {
+            return h - yScale(d) - bottomPadding;
+          })
+          .attr("r", 10);
+      });
     </script>
   </body>
 </html>
