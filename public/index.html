@@ -13,7 +13,9 @@
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log(data);
-        console.log(data[i][2]);
+        for (let i = 0; i<data.length; i++){
+          console.log(data[i][1]);
+        }
 
         const w = 850;
         const h = 850;
