@@ -65,46 +65,12 @@ app.use(morgan("combined"));
 app.post("/api/helloQuery", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT year FROM energy;`;
+    const query = `SELECT entity, year, primary_energy_consum FROM energy;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
       "ok": true,
-      "year": queryData.rows,
-    })
-  } catch (error) {
-    // Hvis query fejler, fanges det her.
-    // Send fejlbesked tilbage til JavaScript
-    res.json({
-      "ok": false,
-      "message": error.message,
-    })
-  }
-  try {
-    // Lav query
-    const query = `SELECT primary_energy_consum FROM energy;`;
-    queryData = await client.query(query);
-    // Giv svar tilbage til JavaScript
-    res.json({
-      "ok": true,
-      "primary_energy": queryData.rows,
-    })
-  } catch (error) {
-    // Hvis query fejler, fanges det her.
-    // Send fejlbesked tilbage til JavaScript
-    res.json({
-      "ok": false,
-      "message": error.message,
-    })
-  }
-  try {
-    // Lav query
-    const query = `SELECT entity FROM energy;`;
-    queryData = await client.query(query);
-    // Giv svar tilbage til JavaScript
-    res.json({
-      "ok": true,
-      "entity": queryData.rows,
+      "data": queryData.rows,
     })
   } catch (error) {
     // Hvis query fejler, fanges det her.
@@ -118,3 +84,4 @@ app.post("/api/helloQuery", async (req, res) => {
 
 // Web-serveren startes.
 app.listen(PORT, () => console.log(`Serveren kører på port ${PORT}`));
+console.log(queryData.rows);
