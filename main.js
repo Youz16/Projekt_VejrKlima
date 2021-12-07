@@ -84,4 +84,4 @@ app.post("/api/helloQuery", async (req, res) => {
 
 // Web-serveren startes.
 app.listen(PORT, () => console.log(`Serveren kører på port ${PORT}`));
-console.log(queryData.rows);
+console.log(res.json);
