@@ -16,7 +16,9 @@
         
         const w = 850;
         const h = 850;
-        
+        const bottomPadding = 20; // Plads til x-akse i bunden
+        const sidePadding = 10; // Plads til y-akse senere
+
         // Scale-funktioner
         const yScale = d3.scaleLinear() // Linæer skalering
           .domain([0, d3.max(data)])
