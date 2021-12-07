@@ -13,7 +13,10 @@
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log(data);
-
+        
+        const w = 850;
+        const h = 850;
+        
         // Scale-funktioner
         const yScale = d3.scaleLinear() // Linæer skalering
           .domain([0, d3.max(data)])
