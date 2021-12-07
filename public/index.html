@@ -8,7 +8,7 @@
   </head>
   <body>
     <script>
-      d3.json("/api/helloQuery", {
+      d3.json("/api/energyData", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
@@ -34,14 +34,7 @@
           .append("svg")
           .attr("width", w)
           .attr("height", h);
-
-        // Lave x-akse med tal
-        const xAxis = d3.axisBottom().scale(xScale);
-        svg.append("g") // "g" er en SVG Group
-          // Aksen flyttes på plads med 'transform'
-          .attr("transform", "translate(0," + (h - bottomPadding) + ")")
-          // d3.js laver sin magi
-          .call(xAxis);
+        
 
         // Indsæt tekst fra postgres query som eksempel
         svg.selectAll("circle")
@@ -56,6 +49,21 @@
           })
           .attr("r", 10);
       });
+
+        d3.json("/api/energyData", {
+        method: "POST",
+        }).then(function (response) {
+        const data = response.data; // Hent data ud af response
+        console.log(data);
+
+        // Lave x-akse med tal
+        const xAxis = d3.axisBottom().scale(xScale);
+        svg.append("g") // "g" er en SVG Group
+          // Aksen flyttes på plads med 'transform'
+          .attr("transform", "translate(0," + (h - bottomPadding) + ")")
+          // d3.js laver sin magi
+          .call(xAxis);
+        });
     </script>
   </body>
 </html>
