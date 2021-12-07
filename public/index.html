@@ -57,12 +57,9 @@
           .append("g")
           .append("path")
           .datum(data)
-          .attr(
-            "d",
-            d3
-              .line()
-              .x((d) => x(+d.time))
-              .y((d) => y(+d.valueA))
+          .attr("d", d3.line()
+              .x((d) => x(+d.year))
+              .y((d) => y(+d.primary_energy_consum))
           )
           .attr("stroke", "black")
           .style("stroke-width", 4)
@@ -73,8 +70,8 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", (d) => x(+d.time))
-          .attr("cy", (d) => y(+d.valueA))
+          .attr("cx", (d) => x(+d.year))
+          .attr("cy", (d) => y(+d.primary_energy_consum))
           .attr("r", 7)
           .style("fill", "#69b3a2");
 
@@ -82,7 +79,7 @@
         function update(selectedGroup) {
           // Create new data with the selection?
           const dataFilter = data.map(function (d) {
-            return { time: d.time, value: d[selectedGroup] };
+            return { time: d.year, value: d[selectedGroup] };
           });
 
           // Give these new data to update line
@@ -94,21 +91,21 @@
               "d",
               d3
                 .line()
-                .x((d) => x(+d.time))
-                .y((d) => y(+d.value))
+                .x((d) => x(+d.year))
+                .y((d) => y(+d.primary_energy_consum))
             );
           dot
             .data(dataFilter)
             .transition()
             .duration(1000)
-            .attr("cx", (d) => x(+d.time))
-            .attr("cy", (d) => y(+d.value));
+            .attr("cx", (d) => x(+d.year))
+            .attr("cy", (d) => y(+d.primary_energy_consum));
         }
 
         // When the button is changed, run the updateChart function
         d3.select("#selectButton").on("change", function (event, d) {
           // recover the option that has been chosen
-          let selectedOption = d3.select(this).property("value");
+          let selectedOption = d3.select(this).property("primary_energy_consum");
           // run the updateChart function with this selected option
           update(selectedOption);
         });
