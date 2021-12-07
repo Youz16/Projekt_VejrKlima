@@ -13,6 +13,7 @@
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log(data);
+        console.log(data[i][2]);
 
         const w = 850;
         const h = 850;
@@ -49,11 +50,6 @@
           })
           .attr("r", 10);
 
-          d3.json("/api/energyYear", {
-          method: "POST",
-          }).then(function (response) {
-          const year = response.year; // Hent data ud af response
-          console.log(year);
           // Lave x-akse med tal
           const xAxis = d3.axisBottom().scale(xScale);
           svg.append("g") // "g" er en SVG Group
@@ -61,7 +57,6 @@
             .attr("transform", "translate(0," + (h - bottomPadding) + ")")
             // d3.js laver sin magi
             .call(xAxis);
-          }); 
         });
     </script>
   </body>
