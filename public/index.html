@@ -50,7 +50,7 @@
           .attr("r", 10);
       });
 
-        d3.json("/api/energyData", {
+        d3.json("/api/energyYear", {
         method: "POST",
         }).then(function (response) {
         const data = response.data; // Hent data ud af response
