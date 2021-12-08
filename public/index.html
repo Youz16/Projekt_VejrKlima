@@ -32,7 +32,7 @@
         method: "POST",
       }).then(function (response) {
         const data2 = response.data2; // Hent data ud af response
-        console.log("data1", data2);
+        console.log("data2", data2);
 
         // add the options to the button
         d3.select("#selectButton")
@@ -40,8 +40,8 @@
           .data(data2)
           .enter()
           .append("option")
-          .text((d) => d) // text showed in the menu
-          .attr("value", (d) => d); // corresponding value returned by the button
+          .text((data2) => data2) // text showed in the menu
+          .attr("value", (data2) => data2); // corresponding value returned by the button
       });
 
       d3.json("/api/energyYear", {
