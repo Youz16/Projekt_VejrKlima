@@ -66,11 +66,21 @@
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log("data", data);
+        let dateParse = d3.timeParse("%Y");
 
+        data.forEach(function (d) {
+          d.date = dateParse(d.year);
+          console.log(d.dd);
+        });
+
+        // d3.timeParse(%Y)
         // Add Y axis
         const y = d3
-          .scaleLinear()
-          .domain([d3.min((d) => d.primary_energy_consum), d3.max((d) => d.primary_energy_consum)])
+          .scaleTime()
+          .domain([
+            d3.min((d) => d.primary_energy_consum),
+            d3.max((d) => d.primary_energy_consum),
+          ])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
@@ -112,12 +122,16 @@
             .datum(dataFilter)
             .transition()
             .duration(1000)
-            .attr("d", d3.line()
+            .attr(
+              "d",
+              d3
+                .line()
                 .x((d) => x(+d.year))
                 .y((d) => y(+d.primary_energy_consum))
             );
-          
-            dot.data(dataFilter)
+
+          dot
+            .data(dataFilter)
             .transition()
             .duration(1000)
             .attr("cx", (d) => x(+d.year))
