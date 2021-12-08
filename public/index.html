@@ -28,7 +28,12 @@
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
       //Read the data
-      d3.json("/api/energyEntities", {
+      /*d3.json("/api/energyEntities", {
+        method: "POST",
+      }).then(function (response) {
+        const data = response.data; // Hent data ud af response
+        console.log("data", data);*/
+      d3.json("/api/energyData", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
@@ -42,35 +47,30 @@
           .append("option")
           .text((d) => d.entity) // text showed in the menu
           .attr("value", (d) => d); // corresponding value returned by the button
-      });
 
-      d3.json("/api/energyYear", {
+        /*d3.json("/api/energyYear", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
-        console.log("data", data);
+        console.log("data", data);*/
 
         // Add X axis --> it is a date format
         const x = d3
           .scaleLinear()
-          .domain([d3.min(d => d.year), d3.max(d => d.year)])
+          .domain([d3.min((d) => d.year), d3.max((d) => d.year)])
           .range([0, width]);
         svg
           .append("g")
           .attr("transform", `translate(0, ${height})`)
           .call(d3.axisBottom(x));
-      });
-
-      d3.json("/api/energyData", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
 
         // Add Y axis
         const y = d3
           .scaleLinear()
-          .domain([d3.min(d => d.primary_energy_consum), d3.max(d => d.primary_energy_consum)])
+          .domain([
+            d3.min((d) => d.primary_energy_consum),
+            d3.max((d) => d.primary_energy_consum),
+          ])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
