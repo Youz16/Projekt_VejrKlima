@@ -39,7 +39,7 @@
           .selectAll("myOptions")
           .data(data)
           .enter()
-          .append("option")
+          .append(text)
           .text((d) => d) // text showed in the menu
           .attr("value", (d) => d); // corresponding value returned by the button
       });
