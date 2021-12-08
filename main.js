@@ -84,7 +84,7 @@ app.post("/api/energyData", async (req, res) => {
 app.post("/api/energyYear", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT DISTINCT year FROM energy WHERE year IS BETWEEN 1985 AND 2019 ORDER BY year;`;
+    const query = `SELECT DISTINCT year FROM energy WHERE year IS BETWEEN 1985 AND 2019;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({

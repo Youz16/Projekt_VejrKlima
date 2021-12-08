@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css" />
     <!-- Initialize a select button -->
     <select id="selectButton"></select>
-        
+
     <!-- Create a div where the graph will take place -->
     <div id="my_dataviz"></div>
   </head>
@@ -27,34 +27,41 @@
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      //Read the data
+      /*Read the data
       d3.json("/api/energyData", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log("data", data);
+      */
 
-        // List of groups (here I have one group per column)
-        const allGroup = ["valueA", "valueB", "valueC"];
+      // List of groups (here I have one group per column)
+      const allGroup = ["valueA", "valueB", "valueC"];
 
-        // add the options to the button
-        d3.select("#selectButton")
-          .selectAll("myOptions")
-          .data(allGroup)
-          .enter()
-          .append("option")
-          .text((d) => d) // text showed in the menu
-          .attr("value", (d) => d); // corresponding value returned by the button
+      // add the options to the button
+      d3.select("#selectButton")
+        .selectAll("myOptions")
+        .data(allGroup)
+        .enter()
+        .append("option")
+        .text((d) => d) // text showed in the menu
+        .attr("value", (d) => d); // corresponding value returned by the button
+      
+        d3.json("/api/energyYear", {
+        method: "POST",
+      }).then(function (response) {
+        const data1 = response.data1; // Hent data ud af response
+        console.log("data1", data1);
 
         // Add X axis --> it is a date format
-        const x = d3.scaleLinear().domain([0, 10]).range([0, width]);
+        const x = d3.scaleLinear().domain([0, d3.max(data1)]).range([0, width]);
         svg
           .append("g")
           .attr("transform", `translate(0, ${height})`)
           .call(d3.axisBottom(x));
 
         // Add Y axis
-        const y = d3.scaleLinear().domain([0, 20]).range([height, 0]);
+        const y = d3.scaleLinear().domain([0, d3.max(data)]).range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
         // Initialize line with group a
@@ -62,7 +69,8 @@
           .append("g")
           .append("path")
           .datum(data)
-          .attr("d", d3.line()
+          .attr(
+            "d", d3.line()
               .x((d) => x(+d.year))
               .y((d) => y(+d.primary_energy_consum))
           )
@@ -88,8 +96,7 @@
           });
 
           // Give these new data to update line
-          line
-            .datum(dataFilter)
+          line.datum(dataFilter)
             .transition()
             .duration(1000)
             .attr(
@@ -99,8 +106,7 @@
                 .x((d) => x(+d.year))
                 .y((d) => y(+d.primary_energy_consum))
             );
-          dot
-            .data(dataFilter)
+          dot.data(dataFilter)
             .transition()
             .duration(1000)
             .attr("cx", (d) => x(+d.year))
@@ -110,7 +116,9 @@
         // When the button is changed, run the updateChart function
         d3.select("#selectButton").on("change", function (event, d) {
           // recover the option that has been chosen
-          let selectedOption = d3.select(this).property("primary_energy_consum");
+          let selectedOption = d3
+            .select(this)
+            .property("primary_energy_consum");
           // run the updateChart function with this selected option
           update(selectedOption);
         });
