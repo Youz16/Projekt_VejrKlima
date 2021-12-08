@@ -28,12 +28,7 @@
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
       //Read the data
-      /*d3.json("/api/energyEntities", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);*/
-      d3.json("/api/energyData", {
+      d3.json("/api/energyEntities", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
@@ -47,12 +42,13 @@
           .append("option")
           .text((d) => d.entity) // text showed in the menu
           .attr("value", (d) => d); // corresponding value returned by the button
+      });
 
-        /*d3.json("/api/energyYear", {
+      d3.json("/api/energyYear", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
-        console.log("data", data);*/
+        console.log("data", data);
 
         // Add X axis --> it is a date format
         const x = d3
@@ -63,14 +59,18 @@
           .append("g")
           .attr("transform", `translate(0, ${height})`)
           .call(d3.axisBottom(x));
+      });
+
+      d3.json("/api/energyData", {
+        method: "POST",
+      }).then(function (response) {
+        const data = response.data; // Hent data ud af response
+        console.log("data", data);
 
         // Add Y axis
         const y = d3
           .scaleLinear()
-          .domain([
-            d3.min((d) => d.primary_energy_consum),
-            d3.max((d) => d.primary_energy_consum),
-          ])
+          .domain([d3.min((d) => d.primary_energy_consum), d3.max((d) => d.primary_energy_consum)])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
@@ -112,15 +112,12 @@
             .datum(dataFilter)
             .transition()
             .duration(1000)
-            .attr(
-              "d",
-              d3
-                .line()
+            .attr("d", d3.line()
                 .x((d) => x(+d.year))
                 .y((d) => y(+d.primary_energy_consum))
             );
-          dot
-            .data(dataFilter)
+          
+            dot.data(dataFilter)
             .transition()
             .duration(1000)
             .attr("cx", (d) => x(+d.year))
