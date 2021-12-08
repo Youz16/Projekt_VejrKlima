@@ -77,10 +77,7 @@
         // Add Y axis
         const y = d3
           .scaleLinear()
-          .domain([
-            d3.min((d) => d.primary_energy_consum),
-            d3.max((d) => d.primary_energy_consum),
-          ])
+          .domain([d3.min(data, d => d.primary_energy_consum), d3.max(data, d => d.primary_energy_consum)])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
