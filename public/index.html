@@ -51,19 +51,19 @@
         console.log("data", data);
         
         data.forEach(function (d) {
-          d.date = parseInt(d.year);
-          console.log(d.date);
+          parseInt(d.year);
+          console.log(d.year);
+        });
           
           // Add X axis --> it is a date format
           const x = d3
           .scaleLinear()
-          .domain([d3.min(d.date), d3.max(d.date)])
+          .domain([d3.min(d.year), d3.max(d.year)])
           .range([0, width]);
           svg
           .append("g")
           .attr("transform", `translate(0, ${height})`)
           .call(d3.axisBottom(x));
-        });
       });
 
       d3.json("/api/energyData", {
