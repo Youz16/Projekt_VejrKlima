@@ -31,29 +31,29 @@
       d3.json("/api/energyEntities", {
         method: "POST",
       }).then(function (response) {
-        const data2 = response.data2; // Hent data ud af response
-        console.log("data2", data2);
+        const data = response.data; // Hent data ud af response
+        console.log("data", data);
 
         // add the options to the button
         d3.select("#selectButton")
           .selectAll("myOptions")
-          .data(data2)
+          .data(data)
           .enter()
           .append("option")
-          .text((data2) => data2) // text showed in the menu
-          .attr("value", (data2) => data2); // corresponding value returned by the button
+          .text((d) => d) // text showed in the menu
+          .attr("value", (d) => d); // corresponding value returned by the button
       });
 
       d3.json("/api/energyYear", {
         method: "POST",
       }).then(function (response) {
-        const data1 = response.data1; // Hent data ud af response
-        console.log("data1", data1);
+        const data = response.data; // Hent data ud af response
+        console.log("data", data);
 
         // Add X axis --> it is a date format
         const x = d3
           .scaleLinear()
-          .domain([0, d3.max(data1)])
+          .domain([0, d3.max(data)])
           .range([0, width]);
         svg
           .append("g")
