@@ -9,6 +9,6 @@ h1, h2 {
 
 svg {
     stroke: "black";
-    stroke-width: 10;
-    background-color: rgb(80, 80, 80);
+    stroke-width: 2;
+    background-color: "steelblue";
 }
