@@ -58,7 +58,7 @@
         // Add X axis --> it is a date format
         const x = d3
           .scaleLinear()
-          .domain([d3.min((d) => d.year), d3.max((d) => d.year)])
+          .domain([d3.min(d.date), d3.max(d.date)])
           .range([0, width]);
         svg
           .append("g")
@@ -73,7 +73,7 @@
         console.log("data", data);
 
         // d3.timeParse(%Y)
-        
+
         // Add Y axis
         const y = d3
           .scaleLinear()
