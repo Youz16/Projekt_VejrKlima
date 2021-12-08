@@ -70,13 +70,13 @@
 
         data.forEach(function (d) {
           d.date = dateParse(d.year);
-          console.log(d.dd);
+          console.log(d.date);
         });
 
         // d3.timeParse(%Y)
         // Add Y axis
         const y = d3
-          .scaleTime()
+          .scaleLinear()
           .domain([
             d3.min((d) => d.primary_energy_consum),
             d3.max((d) => d.primary_energy_consum),
