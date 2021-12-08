@@ -103,7 +103,7 @@ app.post("/api/energyYear", async (req, res) => {
 app.post("/api/energyEntities", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT DISTINCT entity FROM energy WHERE code IS NULL;`;
+    const query = `SELECT DISTINCT entity FROM energy WHERE code IS NOT NULL;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
