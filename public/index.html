@@ -142,6 +142,7 @@
         let selectedOption = d3.select(this)
           .property("primary_energy_consum")
           .property("year")
+          .property("entity")
         // run the updateChart function with this selected option
         update(selectedOption);
       });
