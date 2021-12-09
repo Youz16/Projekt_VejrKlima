@@ -55,13 +55,13 @@
       d3.json("/api/energyData", {
         method: "POST",
       }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
+        const data1 = response.data; // Hent data ud af response
+        console.log("data1", data1);
 
         // Add X axis
         const x = d3
           .scaleLinear()
-          .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
+          .domain([d3.min(data1, (d) => d.year), d3.max(data1, (d) => d.year)])
           .range([0, width])
           .nice();
         svg
@@ -75,8 +75,8 @@
         const y = d3
           .scaleLinear()
           .domain([
-            d3.min(data, (d) => d.primary_energy_consum),
-            d3.max(data, (d) => d.primary_energy_consum),
+            d3.min(data1, (d) => d.primary_energy_consum),
+            d3.max(data1, (d) => d.primary_energy_consum),
           ])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
@@ -85,13 +85,13 @@
         const line = svg
           .append("g")
           .append("path")
-          .datum(data)
+          .datum(data1)
           .attr(
             "data",
             d3
               .line()
-              .x(data, (d) => x(+d.year))
-              .y(data, (d) => y(+d.primary_energy_consum))
+              .x(data1, (d) => x(+d.year))
+              .y(data1, (d) => y(+d.primary_energy_consum))
           )
           .attr("stroke", "black")
           .style("stroke-width", 4)
@@ -100,18 +100,18 @@
         // Dots
         const dot = svg
           .selectAll("circle")
-          .data(data)
+          .data(data1)
           .join("circle")
-          .attr("cx", (data, (d) => x(+d.year)))
-          .attr("cy", (data, (d) => y(+d.primary_energy_consum)))
+          .attr("cx", (data1, (d) => x(+d.year)))
+          .attr("cy", (data1, (d) => y(+d.primary_energy_consum)))
           .attr("r", 5)
           .style("fill", "#69b3a2");
 
         // A function that update the chart
-        function update(year, primary_energy_consum) {
+        function update(selectedGroup) {
           // Create new data with the selection?
-          const dataFilter = data.map(function (d) {
-            return { time: d[year], value: d[primary_energy_consum] };
+          const dataFilter = data1.map(function (d) {
+            return { country: d.entity, time: d.year, value: d[selectedGroup] };
           });
 
           // Give these new data to update line
@@ -120,16 +120,16 @@
             .transition()
             .duration(1000)
             .attr("data", d3.line()
-              .x((data, (d) => x(+d.year)))
-              .y((data, (d) => y(+d.primary_energy_consum)))
+              .x((data1, (d) => x(+d.year)))
+              .y((data1, (d) => y(+d.primary_energy_consum)))
             );
 
           dot
             .data(dataFilter)
             .transition()
             .duration(1000)
-            .attr("cx", (data, (d) => d.year))
-            .attr("cy", (data, (d) => d.primary_energy_consum));
+            .attr("cx", (data1, (d) => d.year))
+            .attr("cy", (data1, (d) => d.primary_energy_consum));
         }
 
         // When the button is changed, run the updateChart function
