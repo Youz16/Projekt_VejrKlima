@@ -142,8 +142,7 @@
         // recover the option that has been chosen
         let selectedOption = d3.select(this)
           .property("primary_energy_consum")
-          .property(d.year)
-          .property(d.entity)
+          .property("entity")
         // run the updateChart function with this selected option
         update(selectedOption);
       });
