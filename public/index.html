@@ -120,8 +120,8 @@
           .transition()
           .duration(1000)
           .attr("data", d3.line()
-            .x((data, (d) => d.year))
-            .y((data, (d) => d.primary_energy_consum))
+            .x((data, (d) => x(+d.year)))
+            .y((data, (d) => y(+d.primary_energy_consum)))
           );
 
         dot
