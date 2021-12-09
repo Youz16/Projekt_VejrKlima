@@ -49,7 +49,7 @@
           .enter()
           .append("option")
           .text((d) => d.entity) // text showed in the menu
-          .attr("value", (d) => d); // corresponding value returned by the button
+          .attr("value", data, (d) => d); // corresponding value returned by the button
 
         /*d3.json("/api/energyYear", {
             method: "POST",
