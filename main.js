@@ -65,7 +65,7 @@ app.use(morgan("combined"));
 app.post("/api/energyData", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT entity, year, primary_energy_consum FROM energy ORDER BY entity;`;
+    const query = `SELECT entity, year, primary_energy_consum FROM energy GROUP BY entity ORDER BY entity;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({

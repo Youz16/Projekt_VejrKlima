@@ -22,15 +22,20 @@
 
     // append the svg object to the body of the page
     const svg = d3
-      .select("#my_dataviz")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
+    .select("#my_dataviz")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+    
     //Read the data
-    d3.json("/api/energyEntities", {
+    d3.json("/api/energyData", {
+      method: "POST",
+    }).then(function (response) {
+      const data = response.data; // Hent data ud af response
+      console.log("data", data);
+    /*d3.json("/api/energyEntities", {
       method: "POST",
     }).then(function (response) {
       const data = response.data; // Hent data ud af response
@@ -54,14 +59,9 @@
           data.forEach(function (d) {
             parseInt(d.year);
             console.log(d.year);
-          });*/
-    });
+          });
+    });*/
 
-    d3.json("/api/energyData", {
-      method: "POST",
-    }).then(function (response) {
-      const data = response.data; // Hent data ud af response
-      console.log("data", data);
 
       // Add X axis --> it is a date format
       const x = d3
@@ -92,7 +92,7 @@
         .append("path")
         .datum(data)
         .attr(
-          "d",
+          "data",
           d3
             .line()
             .x(data, (d) => x(+d.year))
