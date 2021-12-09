@@ -42,28 +42,17 @@
           .append("option")
           .text((d) => d.entity) // text showed in the menu
           .attr("value", (d) => d); // corresponding value returned by the button
-      });
 
-      d3.json("/api/energyYear", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
-        
-        /* data.forEach(function (d) {
-          parseInt(d.year);
-          console.log(d.year);
-        });*/
-          
-          // Add X axis --> it is a date format
-          const x = d3
-          .scaleLinear()
-          .domain([d3.min(data, d => d.year), d3.max(data, d => d.year)])
-          .range([0, width]);
-          svg
-          .append("g")
-          .attr("transform", `translate(0, ${height})`)
-          .call(d3.axisBottom(x));
+        /*d3.json("/api/energyYear", {
+            method: "POST",
+          }).then(function (response) {
+            const data = response.data; // Hent data ud af response
+            console.log("data", data);
+
+            data.forEach(function (d) {
+              parseInt(d.year);
+              console.log(d.year);
+            });*/
       });
 
       d3.json("/api/energyData", {
@@ -72,12 +61,25 @@
         const data = response.data; // Hent data ud af response
         console.log("data", data);
 
+        // Add X axis --> it is a date format
+        const x = d3
+          .scaleLinear()
+          .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
+          .range([0, width]);
+        svg
+          .append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(d3.axisBottom(x));
+
         // d3.timeParse(%Y)
 
         // Add Y axis
         const y = d3
           .scaleLinear()
-          .domain([d3.min(data, d => d.primary_energy_consum), d3.max(data, d => d.primary_energy_consum)])
+          .domain([
+            d3.min(data, (d) => d.primary_energy_consum),
+            d3.max(data, (d) => d.primary_energy_consum),
+          ])
           .range([height, 0]);
         svg.append("g").call(d3.axisLeft(y));
 
@@ -90,8 +92,8 @@
             "d",
             d3
               .line()
-              .x((d) => x(+d.year))
-              .y((d) => y(+d.primary_energy_consum))
+              .x((data, d) => x(+d.year))
+              .y((data, d) => y(+d.primary_energy_consum))
           )
           .attr("stroke", "black")
           .style("stroke-width", 4)
@@ -102,9 +104,9 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", (d) => x(+d.year))
-          .attr("cy", (d) => y(+d.primary_energy_consum))
-          .attr("r", 7)
+          .attr("cx", (data, d) => x(+d.year))
+          .attr("cy", (data, d) => y(+d.primary_energy_consum))
+          .attr("r", 5)
           .style("fill", "#69b3a2");
 
         // A function that update the chart
