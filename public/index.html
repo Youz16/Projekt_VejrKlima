@@ -107,16 +107,16 @@
         .selectAll("circle")
         .data(data)
         .join("circle")
-        .attr("cx", (data, (d) => x(+d.year)))
-        .attr("cy", (data, (d) => y(+d.primary_energy_consum)))
+        .attr("cx", (data, (d) => d.year))
+        .attr("cy", (data, (d) => d.primary_energy_consum))
         .attr("r", 5)
         .style("fill", "#69b3a2");
 
       // A function that update the chart
-      function update(primary_energy_consum) {
+      function update(year, primary_energy_consum) {
         // Create new data with the selection?
         const dataFilter = data.map(function (d) {
-          return { time: d.year,  value: d[primary_energy_consum] };
+          return { time: d[year],  value: d[primary_energy_consum] };
         });
 
         // Give these new data to update line
