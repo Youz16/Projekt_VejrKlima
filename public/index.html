@@ -125,16 +125,16 @@
               "d",
               d3
                 .line()
-                .x((d) => x(+d.year))
-                .y((d) => y(+d.primary_energy_consum))
+                .x((data, d) => x(+d.year))
+                .y((data, d) => y(+d.primary_energy_consum))
             );
 
           dot
             .data(dataFilter)
             .transition()
             .duration(1000)
-            .attr("cx", (d) => x(+d.year))
-            .attr("cy", (d) => y(+d.primary_energy_consum));
+            .attr("cx", (data, d) => x(+d.year))
+            .attr("cy", (data, d) => y(+d.primary_energy_consum));
         }
 
         // When the button is changed, run the updateChart function
