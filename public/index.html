@@ -101,7 +101,7 @@
       const dot = svg
         .selectAll("circle")
         .data(data)
-        .append("circle")
+        .join("circle")
         .attr("cx", (data, (d) => d.year))
         .attr("cy", (data, (d) => d.primary_energy_consum))
         .attr("r", 5)
