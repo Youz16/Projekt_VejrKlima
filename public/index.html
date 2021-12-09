@@ -1,152 +1,152 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Projektet - Vejr & Klima</title>
-    <h2 id="stor-overskrift">Projekt - Visualisering af vejr og Klima</h2>
-    <script src="d3.js"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <!-- Initialize a select button -->
-    <select id="selectButton"></select>
 
-    <!-- Create a div where the graph will take place -->
-    <div id="my_dataviz"></div>
-  </head>
-  <body>
-    <script>
-      // set the dimensions and margins of the graph
-      const margin = { top: 10, right: 100, bottom: 30, left: 30 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+<head>
+  <title>Projektet - Vejr & Klima</title>
+  <h2 id="stor-overskrift">Projekt - Visualisering af vejr og Klima</h2>
+  <script src="d3.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Initialize a select button -->
+  <select id="selectButton"></select>
 
-      // append the svg object to the body of the page
-      const svg = d3
-        .select("#my_dataviz")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+  <!-- Create a div where the graph will take place -->
+  <div id="my_dataviz"></div>
+</head>
+
+<body>
+  <script>
+    // set the dimensions and margins of the graph
+    const margin = { top: 10, right: 100, bottom: 30, left: 30 },
+      width = 460 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    const svg = d3
+      .select("#my_dataviz")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    //Read the data
+    d3.json("/api/energyEntities", {
+      method: "POST",
+    }).then(function (response) {
+      const data = response.data; // Hent data ud af response
+      console.log("data", data);
+
+      // add the options to the button
+      d3.select("#selectButton")
+        .selectAll("myOptions")
+        .data(data)
+        .enter()
+        .append("option")
+        .text((d) => d.entity) // text showed in the menu
+        .attr("value", (d) => d); // corresponding value returned by the button
+
+      /*d3.json("/api/energyYear", {
+          method: "POST",
+        }).then(function (response) {
+          const data = response.data; // Hent data ud af response
+          console.log("data", data);
+
+          data.forEach(function (d) {
+            parseInt(d.year);
+            console.log(d.year);
+          });*/
+    });
+
+    d3.json("/api/energyData", {
+      method: "POST",
+    }).then(function (response) {
+      const data = response.data; // Hent data ud af response
+      console.log("data", data);
+
+      // Add X axis --> it is a date format
+      const x = d3
+        .scaleLinear()
+        .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
+        .range([0, width]);
+      svg
         .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x));
 
-      //Read the data
-      d3.json("/api/energyEntities", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
+      // d3.timeParse(%Y)
 
-        // add the options to the button
-        d3.select("#selectButton")
-          .selectAll("myOptions")
-          .data(data)
-          .enter()
-          .append("option")
-          .text((d) => d.entity) // text showed in the menu
-          .attr("value", (d) => d); // corresponding value returned by the button
+      // Add Y axis
+      const y = d3
+        .scaleLinear()
+        .domain([
+          d3.min(data, (d) => d.primary_energy_consum),
+          d3.max(data, (d) => d.primary_energy_consum),
+        ])
+        .range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y));
 
-        /*d3.json("/api/energyYear", {
-            method: "POST",
-          }).then(function (response) {
-            const data = response.data; // Hent data ud af response
-            console.log("data", data);
+      // Initialize line with group a
+      const line = svg
+        .append("g")
+        .append("path")
+        .datum(data)
+        .attr(
+          "d",
+          d3
+            .line()
+            .x(data, (d) => x(+d.year))
+            .y(data, (d) => y(+d.primary_energy_consum))
+        )
+        .attr("stroke", "black")
+        .style("stroke-width", 4)
+        .style("fill", "none");
 
-            data.forEach(function (d) {
-              parseInt(d.year);
-              console.log(d.year);
-            });*/
-      });
+      // Initialize dots with group a
+      const dot = svg
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("cx", (data, d) => x(+d.year))
+        .attr("cy", (data, d) => y(+d.primary_energy_consum))
+        .attr("r", 5)
+        .style("fill", "#69b3a2");
 
-      d3.json("/api/energyData", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
-
-        // Add X axis --> it is a date format
-        const x = d3
-          .scaleLinear()
-          .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
-          .range([0, width]);
-        svg
-          .append("g")
-          .attr("transform", `translate(0, ${height})`)
-          .call(d3.axisBottom(x));
-
-        // d3.timeParse(%Y)
-
-        // Add Y axis
-        const y = d3
-          .scaleLinear()
-          .domain([
-            d3.min(data, (d) => d.primary_energy_consum),
-            d3.max(data, (d) => d.primary_energy_consum),
-          ])
-          .range([height, 0]);
-        svg.append("g").call(d3.axisLeft(y));
-
-        // Initialize line with group a
-        const line = svg
-          .append("g")
-          .append("path")
-          .datum(data)
-          .attr(
-            "d",
-            d3
-              .line()
-              .x((data, d) => x(+d.year))
-              .y((data, d) => y(+d.primary_energy_consum))
-          )
-          .attr("stroke", "black")
-          .style("stroke-width", 4)
-          .style("fill", "none");
-
-        // Initialize dots with group a
-        const dot = svg
-          .selectAll("circle")
-          .data(data)
-          .join("circle")
-          .attr("cx", (data, d) => x(+d.year))
-          .attr("cy", (data, d) => y(+d.primary_energy_consum))
-          .attr("r", 5)
-          .style("fill", "#69b3a2");
-
-        // A function that update the chart
-        function update(selectedGroup) {
-          // Create new data with the selection?
-          const dataFilter = data.map(function (d) {
-            return { time: d.year, value: d[selectedGroup] };
-          });
-
-          // Give these new data to update line
-          line
-            .datum(dataFilter)
-            .transition()
-            .duration(1000)
-            .attr(
-              "d",
-              d3
-                .line()
-                .x((data, d) => x(+d.year))
-                .y((data, d) => y(+d.primary_energy_consum))
-            );
-
-          dot
-            .data(dataFilter)
-            .transition()
-            .duration(1000)
-            .attr("cx", (data, d) => x(+d.year))
-            .attr("cy", (data, d) => y(+d.primary_energy_consum));
-        }
-
-        // When the button is changed, run the updateChart function
-        d3.select("#selectButton").on("change", function (event, d) {
-          // recover the option that has been chosen
-          let selectedOption = d3
-            .select(this)
-            .property("primary_energy_consum");
-          // run the updateChart function with this selected option
-          update(selectedOption);
+      // A function that update the chart
+      function update(selectedGroup) {
+        // Create new data with the selection?
+        const dataFilter = data.map(function (d) {
+          return { time: d.year, value: d.primary_energy_consum[selectedGroup] };
         });
+
+        // Give these new data to update line
+        line
+          .datum(dataFilter)
+          .transition()
+          .duration(1000)
+          .attr("d", d3.line()
+            .x((data, (d) => x(+d.year)))
+            .y((data, (d) => y(+d.primary_energy_consum)))
+          );
+
+        dot
+          .data(dataFilter)
+          .transition()
+          .duration(1000)
+          .attr("cx", (data, (d) => x(+d.year)))
+          .attr("cy", (data, (d) => y(+d.primary_energy_consum)));
+      }
+
+      // When the button is changed, run the updateChart function
+      d3.select("#selectButton").on("change", function (event, d) {
+        // recover the option that has been chosen
+        let selectedOption = d3
+          .select(this)
+          .property("primary_energy_consum");
+        // run the updateChart function with this selected option
+        update(selectedOption);
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
