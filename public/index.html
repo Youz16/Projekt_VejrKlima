@@ -10,7 +10,7 @@
   <select id="selectButton"></select>
 
   <!-- Create a div where the graph will take place -->
-  <div id="my_dataviz"></div>
+  <div id="dataviz"></div>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
     // append the svg object to the body of the page
     const svg = d3
-      .select("#my_dataviz")
+      .select("#dataviz")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -97,7 +97,7 @@
         .style("stroke-width", 4)
         .style("fill", "none");
 
-      // Initialize dots with group a
+      // Dots
       const dot = svg
         .selectAll("circle")
         .data(data)
