@@ -116,7 +116,7 @@
       function update(selectedGroup) {
         // Create new data with the selection?
         const dataFilter = data.map(function (d) {
-          return { time: d.year, country: d.entity, value: d.primary_energy_consum[selectedGroup] };
+          return { time: d.year,  value: d[selectedGroup] };
         });
 
         // Give these new data to update line
