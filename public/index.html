@@ -115,7 +115,7 @@
       function update(selectedGroup) {
         // Create new data with the selection?
         const dataFilter = data.map(function (d) {
-          return { time: d.year, value: d.primary_energy_consum[selectedGroup] };
+          return { time: d.year, country: d.entity, value: d.primary_energy_consum[selectedGroup] };
         });
 
         // Give these new data to update line
@@ -140,7 +140,9 @@
       d3.select("#selectButton").on("change", function (event, d) {
         // recover the option that has been chosen
         let selectedOption = d3.select(this)
-          .property(d.primary_energy_consum);
+          .property(d.primary_energy_consum)
+          .property(d.entity)
+          .property(d.year)
         // run the updateChart function with this selected option
         update(selectedOption);
       });
