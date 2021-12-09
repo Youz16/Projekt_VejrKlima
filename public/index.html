@@ -49,12 +49,7 @@
           method: "POST",
         }).then(function (response) {
           const data = response.data; // Hent data ud af response
-          console.log("data", data);
-
-          data.forEach(function (d) {
-            parseInt(d.year);
-            console.log(d.year);
-          });*/
+          console.log("data", data);*/
     });
 
     d3.json("/api/energyData", {
@@ -63,7 +58,7 @@
       const data = response.data; // Hent data ud af response
       console.log("data", data);
 
-      // Add X axis --> it is a date format
+      // Add X axis
       const x = d3
         .scaleLinear()
         .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
@@ -74,7 +69,7 @@
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x));
 
-      // d3.timeParse(%Y)
+      // Just in case der opstår behov for det: d3.timeParse(%Y)
 
       // Add Y axis
       const y = d3
