@@ -34,13 +34,13 @@
       method: "POST",
     }).then(function (response) {
       const data = response.data; // Hent data ud af response
-      console.log("data", data1);
+      console.log("data", data);
 
 
       // add the options to the button
       d3.select("#selectButton")
         .selectAll("myOptions")
-        .data(data1)
+        .data(data)
         .enter()
         .append("option")
         .text((d) => d.entity) // text showed in the menu
