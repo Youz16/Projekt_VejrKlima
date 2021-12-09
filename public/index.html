@@ -33,7 +33,7 @@
     d3.json("/api/energyEntities", {
       method: "POST",
     }).then(function (response) {
-      const data = response.data; // Hent data ud af response
+      const data1 = response.data; // Hent data ud af response
       console.log("data", data1);
 
       d3.json("/api/energyData", {
