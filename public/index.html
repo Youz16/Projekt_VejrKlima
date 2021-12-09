@@ -67,7 +67,8 @@
       const x = d3
         .scaleLinear()
         .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
-        .range([0, width]);
+        .range([0, width])
+        .nice();
       svg
         .append("g")
         .attr("transform", `translate(0, ${height})`)
