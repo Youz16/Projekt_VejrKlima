@@ -46,6 +46,7 @@
           .text((d) => d.entity) // text showed in the menu
           .attr("value", d => d); // corresponding value returned by the button
       });
+      
       /*d3.json("/api/energyYear", {
         method: "POST",
       }).then(function (response) {
@@ -78,7 +79,8 @@
             d3.min(data, (d) => d.primary_energy_consum),
             d3.max(data, (d) => d.primary_energy_consum),
           ])
-          .range([height, 0]);
+          .range([height, 0])
+          .nice();
         svg.append("g").call(d3.axisLeft(y));
 
         // Initialize line with group a
