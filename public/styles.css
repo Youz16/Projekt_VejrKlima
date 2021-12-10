@@ -10,6 +10,7 @@ h1, h2 {
 
 #Dataviz {
     margin: auto;
+    width: 50%;
     stroke-width: 2;
     background-color: rgb(190, 190, 190);
 }
