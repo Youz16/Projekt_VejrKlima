@@ -92,8 +92,8 @@
             "data",
             d3
               .line()
-              .x(data, (d) => x(+d.year))
-              .y(data, (d) => y(+d.primary_energy_consum))
+              .x(d => x(d.year))
+              .y(d => y(d.primary_energy_consum))
           )
           .attr("stroke", "black")
           .style("stroke-width", 4)
@@ -104,11 +104,12 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", (data, (d) => x(+d.year)))
-          .attr("cy", (data, (d) => y(+d.primary_energy_consum)))
+          .attr("cx", d => x(d.year))
+          .attr("cy", d => y(d.primary_energy_consum))
           .attr("r", 5)
           .style("fill", "#69b3a2");
           console.log(d);
+
         // A function that update the chart
         function update(year, primary_energy_consum) {
           // Create new data with the selection?
