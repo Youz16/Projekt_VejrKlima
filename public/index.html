@@ -76,11 +76,10 @@
         const y = d3
           .scaleLinear()
           .domain([
-            d3.min(data, (d) => d.primary_energy_consum),
-            d3.max(data, (d) => d.primary_energy_consum),
+            d3.min(d => d.primary_energy_consum),
+            d3.max(d => d.primary_energy_consum),
           ])
           .range([height, 0])
-          .nice();
         svg.append("g").call(d3.axisLeft(y));
 
         // Initialize line with group a
@@ -88,10 +87,7 @@
           .append("g")
           .append("path")
           .datum(data)
-          .attr(
-            "data",
-            d3
-              .line()
+          .attr("data", d3.line()
               .x(d => x(d.year))
               .y(d => y(d.primary_energy_consum))
           )
@@ -108,7 +104,6 @@
           .attr("cy", d => y(d.primary_energy_consum))
           .attr("r", 5)
           .style("fill", "#69b3a2");
-        console.log(d);
 
         // A function that update the chart
         function update(year, primary_energy_consum) {
