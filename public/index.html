@@ -53,7 +53,7 @@
         const data = response.data; // Hent data ud af response
           console.log("data", data);*/
 
-      d3.json("/api/energyData", {
+      d3.json("/api/energy/:entity", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
@@ -91,8 +91,8 @@
               .x(d => x(d.year))
               .y(d => y(d.primary_energy_consum))
           )
-          .style("stroke-width", 4)
-          .style("fill", "none");
+          .attr("stroke-width", 4)
+          .attr("fill", "none");
 
         // Dots
         const dot = svg
