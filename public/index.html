@@ -87,7 +87,7 @@
           .append("g")
           .append("path")
           .datum(data)
-          .attr("data", d3.line()
+          .attr(d3.line()
               .x(d => x(d.year))
               .y(d => y(d.primary_energy_consum))
           )
