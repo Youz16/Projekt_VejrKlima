@@ -99,8 +99,29 @@ app.post("/api/energyYear", async (req, res) => {
       "message": error.message,
     })
   }
-})
+});
+
 app.post("/api/energy/:entity", async (req, res) => {
+  try {
+    // Lav query
+    const query = `SELECT * FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
+    console.log(req.params.entity);
+    queryData = await client.query(query);
+    // Giv svar tilbage til JavaScript
+    res.json({
+      "ok": true,
+      "data": queryData.rows,
+    })
+  } catch (error) {
+    // Hvis query fejler, fanges det her.
+    // Send fejlbesked tilbage til JavaScript
+    res.json({
+      "ok": false,
+      "message": error.message,
+    })
+  }
+});
+app.post("/api/energyEntities", async (req, res) => {
   try {
     // Lav query
     const query = `SELECT * FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
