@@ -99,11 +99,12 @@ app.post("/api/energyYear", async (req, res) => {
       "message": error.message,
     })
   }
-});
-app.post("/api/energyEntities", async (req, res) => {
+})
+app.post("/api/energy/:entity", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT DISTINCT entity FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
+    const query = `SELECT * FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
+    console.log(req.params.entity);
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
