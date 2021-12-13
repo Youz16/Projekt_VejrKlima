@@ -31,7 +31,7 @@
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
       //Read the data
-      d3.json("/api/energyEntities", {
+      d3.json("/api/energy/:entity", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
