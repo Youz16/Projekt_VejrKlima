@@ -54,11 +54,12 @@
         const data = response.data; // Hent data ud af response
           console.log("data", data);*/
 
-      d3.json("/api/energy/Denmark", {
+      d3.json("/api/energy/Chile", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log("data", data);
+        console.log(response);
 
         // Add X axis
         const x = d3

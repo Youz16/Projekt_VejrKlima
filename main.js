@@ -104,7 +104,7 @@ app.post("/api/energyYear", async (req, res) => {
 app.post("/api/energy/:entity", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT * FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
+    const query = `SELECT * FROM energy WHERE entity = ${req.params.entity} ORDER BY entity;`;
     console.log(req.params.entity);
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
@@ -124,7 +124,7 @@ app.post("/api/energy/:entity", async (req, res) => {
 app.post("/api/energyEntities", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT * FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
+    const query = `SELECT DISTINCT entity FROM energy WHERE code IS NOT NULL ORDER BY entity;`;
     console.log(req.params.entity);
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
@@ -141,6 +141,45 @@ app.post("/api/energyEntities", async (req, res) => {
     })
   }
 });
+app.post("/api/energyYear", async (req, res) => {
+  try {
+    // Lav query
+    const query = `SELECT DISTINCT year FROM energy WHERE year BETWEEN 1985 AND 2019 ORDER BY year;`;
+    queryData = await client.query(query);
+    // Giv svar tilbage til JavaScript
+    res.json({
+      "ok": true,
+      "data": queryData.rows,
+    })
+  } catch (error) {
+    // Hvis query fejler, fanges det her.
+    // Send fejlbesked tilbage til JavaScript
+    res.json({
+      "ok": false,
+      "message": error.message,
+    })
+  }
+});
 
+app.post("/api/energyWorld", async (req, res) => {
+  try {
+    // Lav query
+    const query = `SELECT * FROM energy WHERE code IS NOT NULL AND entity LIKE 'World';`;
+    console.log(req.params.entity);
+    queryData = await client.query(query);
+    // Giv svar tilbage til JavaScript
+    res.json({
+      "ok": true,
+      "data": queryData.rows,
+    })
+  } catch (error) {
+    // Hvis query fejler, fanges det her.
+    // Send fejlbesked tilbage til JavaScript
+    res.json({
+      "ok": false,
+      "message": error.message,
+    })
+  }
+});
 // Web-serveren startes.
 app.listen(PORT, () => console.log(`Serveren kører på port ${PORT}`));
