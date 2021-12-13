@@ -106,10 +106,10 @@
           .style("fill", "#69b3a2");
 
         // A function that update the chart
-        function update(year, primary_energy_consum) {
+        function update(entity, year, primary_energy_consum) {
           // Create new data with the selection?
           const dataFilter = data.map(function (d) {
-            return { time: d[year], value: d[primary_energy_consum] };
+            return { country: d.entity, time: d.year, value: d.primary_energy_consum};
           });
 
           // Give these new data to update line
