@@ -101,8 +101,8 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", d => x(d.year))
-          .attr("cy", d => y(d.primary_energy_consum))
+          .attr("cx", data, (d) => x(d.year))
+          .attr("cy", data, (d) => y(d.primary_energy_consum))
           .attr("r", 5)
           .style("fill", "#69b3a2");
 
