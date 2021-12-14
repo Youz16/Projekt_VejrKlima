@@ -44,8 +44,7 @@
           .enter()
           .append("option")
           .text((d) => d.entity) // text showed in the menu
-          .attr("Value", d => d.primary_energy_consum)
-          .attr("year", d => d.year); // corresponding value returned by the button
+          .attr("Value", d => d); // corresponding value returned by the button
       });
 
       /*d3.json("/api/energyYear", {
