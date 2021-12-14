@@ -65,7 +65,7 @@ app.use(morgan("combined"));
 app.post("/api/energyData", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT entity, year, primary_energy_consum FROM energy WHERE code IS NOT NULL AND year BETWEEN 1985 AND 2019 ORDER BY entity;`;
+    const query = `SELECT entity, year, primary_energy_consum FROM energy WHERE code = 'AFG' AND year BETWEEN 1985 AND 2019 ORDER BY entity;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
