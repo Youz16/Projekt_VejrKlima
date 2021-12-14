@@ -62,7 +62,7 @@
 
         function parseFloat(data) {
           for (let i = 0; i < data.length; i++) {
-            parseFloat(d.primary_energy_consum)
+            parseFloat(data, (d) => d.primary_energy_consum)
             return d.primary_energy_consum;
             console.log(d.primary_energy_consum);
           }
