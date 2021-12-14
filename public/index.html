@@ -85,8 +85,8 @@
           .append("path")
           .datum(data)
           .attr(d3.line()
-              .x(d => x(d.year))
-              .y(d => y(d.primary_energy_consum))
+              .x(data, d => x(d.year))
+              .y(data, d => y(d.primary_energy_consum))
           );
 
         // Dots
@@ -94,8 +94,8 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", data, d => d.year)
-          .attr("cy", data, d => d.primary_energy_consum)
+          .attr("cx", data, (d) => x(d.year))
+          .attr("cy", data, (d) => y(d.primary_energy_consum))
           .attr("r", 5)
           .style("fill", "#69b3a2");
 /*
