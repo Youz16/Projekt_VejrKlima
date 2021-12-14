@@ -75,7 +75,7 @@
         // Add Y axis
         const y = d3
           .scaleLinear()
-          .domain([0, 40])
+          .domain([d3.min(d => d.primary_energy_consum), d3.max(d => d.primary_energy_consum)])
           .range([height, 0])
         svg.append("g").call(d3.axisLeft(y));
 
@@ -96,8 +96,8 @@
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", data, (d) => x(d.year))
-          .attr("cy", data, (d) => y(d.primary_energy_consum))
+          .attr("cx", d => d.year)
+          .attr("cy", d => d.primary_energy_consum)
           .attr("r", 5)
           .style("fill", "#69b3a2");
 
@@ -122,8 +122,8 @@
             .data(dataFilter)
             .transition()
             .duration(1000)
-            .attr("cx", (d => x(d.year)))
-            .attr("cy", (d => y(d.primary_energy_consum)));
+            .attr("cx", (d => d.year))
+            .attr("cy", (d => d.primary_energy_consum));
         }
 
         // When the button is changed, run the updateChart function
