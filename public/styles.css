@@ -9,9 +9,6 @@ h1, h2 {
 }
 
 svg, #dataviz {
-    margin-left: auto;
-    margin-right: auto;
-    width: 75%;
     stroke-width: 2;
     background-color: rgb(190, 190, 190);
 }
