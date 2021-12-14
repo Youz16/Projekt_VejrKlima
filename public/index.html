@@ -60,6 +60,10 @@
         console.log("data", data);
         console.log(response);
 
+        function parsefloat(d) {
+          return parseFloat(data, d => d.primary_energy_consum);
+        }
+
         // Add X axis
         const x = d3
           .scaleLinear()
