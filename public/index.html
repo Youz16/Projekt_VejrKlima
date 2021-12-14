@@ -64,7 +64,7 @@
         // Add X axis
         const x = d3
           .scaleLinear()
-          .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
+          .domain(d3.max(data, (d) => d.year), [d3.min(data, (d) => d.year)])
           .range([0, width])
           .nice();
         svg
