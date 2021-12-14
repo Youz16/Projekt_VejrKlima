@@ -87,20 +87,18 @@
           .attr(d3.line()
               .x(d => x(d.year))
               .y(d => y(d.primary_energy_consum))
-          )
-          .attr("stroke-width", 4)
-          .attr("fill", "none");
+          );
 
         // Dots
         const dot = svg
           .selectAll("circle")
           .data(data)
           .join("circle")
-          .attr("cx", d => d.year)
-          .attr("cy", d => d.primary_energy_consum)
+          .attr("cx", data, d => d.year)
+          .attr("cy", data, d => d.primary_energy_consum)
           .attr("r", 5)
           .style("fill", "#69b3a2");
-
+/*
         // A function that update the chart
         function update(entity, year, primary_energy_consum) {
           // Create new data with the selection?
@@ -124,7 +122,7 @@
             .duration(1000)
             .attr("cx", (d => d.year))
             .attr("cy", (d => d.primary_energy_consum));
-        }
+        }*/
 
         // When the button is changed, run the updateChart function
         d3.select("#selectButton").on("change", function (event, d) {
