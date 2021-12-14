@@ -64,9 +64,8 @@
         // Add X axis
         const x = d3
           .scaleLinear()
-          .domain(d3.max(data, (d) => d.year), [d3.min(data, (d) => d.year)])
-          .range([0, width])
-          .nice();
+          .domain([d3.min(data, (d) => d.year), d3.max(data, (d) => d.year)])
+          .range([0, width]);
         svg
           .append("g")
           .attr("transform", `translate(0, ${height})`)
