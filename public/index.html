@@ -63,9 +63,9 @@
         function parsefloat(d) {
           for (let i = 0; i < data.length; i++) {
             parsefloat(d.primary_energy_consum)
+            return d.primary_energy_consum;
+            console.log(d.primary_energy_consum);
           }
-          return d.primary_energy_consum;
-          console.log(d.primary_energy_consum);
         }
 
         // Add X axis
