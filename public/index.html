@@ -7,7 +7,7 @@
   <script src="d3.js"></script>
   <link rel="stylesheet" href="styles.css" />
   <!-- Initialize a select button -->
-  <select id="selectButton" onclick="thisFunction()"></select>
+  <select id="selectButton" onchange="thisFunction()"></select>
 
   <!-- Create a div where the graph will take place -->
   <div id="dataviz"></div>
@@ -47,7 +47,9 @@
           .attr("Value", d => d); // corresponding value returned by the button
       });
       
-      
+      function thisFunction() {
+          req.params.entity = document.getElementById("selectButton")
+        }
       // som parameter skal forsøges!!!
 
       d3.json("/api/energyData", {
@@ -64,10 +66,8 @@
             console.log(d.primary_energy_consum);
           }
         }
+
         
-        function thisFunction() {
-          req.params.entity = document.getElementById("selectButton")
-        }
 
         // Add X axis
         const x = d3
