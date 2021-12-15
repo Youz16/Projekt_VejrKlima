@@ -48,7 +48,7 @@
       });
 
       function thisFunction() {
-        document.getElementById("selectButton") = req.params['entity'];
+         req.params['entity'] = document.getElementById("selectButton");
         console.log(req.params['entity']);
       }
       // som parameter skal forsøges!!!
