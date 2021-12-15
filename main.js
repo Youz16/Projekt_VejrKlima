@@ -62,10 +62,10 @@ app.use(morgan("combined"));
  * Her defineres API'en.
  * Man laver lige så mange endpoints man har lyst til. Jeg har lavet et enkelt til
  */
-app.post("/api/energyData", async (req, res) => {
+app.post("/api/energyData/:entity", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT entity, year, primary_energy_consum FROM energy WHERE entity = '${req.params.entity}' AND year BETWEEN 1985 AND 2019 ORDER BY entity;`;
+    const query = `SELECT entity, year, primary_energy_consum FROM energy WHERE entity = '${req.params['entity']}' AND year BETWEEN 1985 AND 2019 ORDER BY entity;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
