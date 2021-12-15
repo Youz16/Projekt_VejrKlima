@@ -81,6 +81,7 @@ app.post("/api/energyData", async (req, res) => {
     })
   }
 });
+
 app.post("/api/energyYear", async (req, res) => {
   try {
     // Lav query
@@ -105,7 +106,6 @@ app.post("/api/energy/:entity", async (req, res) => {
   try {
     // Lav query
     const query = `SELECT * FROM energy WHERE entity = ${req.params.entity} ORDER BY entity;`;
-    console.log(req.params.entity);
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({
@@ -121,6 +121,7 @@ app.post("/api/energy/:entity", async (req, res) => {
     })
   }
 });
+
 app.post("/api/energyEntities", async (req, res) => {
   try {
     // Lav query
@@ -141,6 +142,7 @@ app.post("/api/energyEntities", async (req, res) => {
     })
   }
 });
+
 app.post("/api/energyYear", async (req, res) => {
   try {
     // Lav query
@@ -181,5 +183,6 @@ app.post("/api/energyWorld", async (req, res) => {
     })
   }
 });
+
 // Web-serveren startes.
 app.listen(PORT, () => console.log(`Serveren kører på port ${PORT}`));
