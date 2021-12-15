@@ -46,14 +46,14 @@
           .text((d) => d.entity) // text showed in the menu
           .attr("Value", d => d); // corresponding value returned by the button
       });
-      
+
       function thisFunction() {
-        let thisFunc = req.params.entity  
+        let thisFunc = req.params.entity
         req.params.entity = document.getElementById("selectButton")
-        }
+      }
       // som parameter skal forsøges!!!
 
-      d3.json("/api/energyData", {
+      d3.json("/api/energyData/:entity", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
@@ -68,7 +68,7 @@
           }
         }
 
-        
+
 
         // Add X axis
         const x = d3
