@@ -3,18 +3,51 @@
 
 <head>
   <title>Projektet - Vejr & Klima</title>
-  <h2 id="stor-overskrift">Projekt - Visualisering af vejr og Klima</h2>
   <script src="d3.js"></script>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Initialize a select button -->
-  <select id="selectButton"></select>
-
-  <!-- Create a div where the graph will take place -->
-  <div id="dataviz"></div>
 </head>
 
 <body>
-  <section id="section1">
+  <section class="forside">
+
+    <div class="background-image"></div>
+
+    <h1 class="header"> El og grøn omstilling</h1>
+
+  </section>
+
+  <!-------intro1---------->
+
+  <section class="introone">
+
+
+    <div class="textboxer">
+      <div class=textbox>
+        <h3> Hvilke energikilder brugte Danmark og hvor meget i 1985?</h3>
+        <p>I Danmark 1985, var vores primær energi kilde fossilebrændstoffer og kul,<br> vedvarende energikilder var
+          ikke
+          brugt meget,<br> i 1985 producerede Danmark ca. 0.05 TWh i vindenergi,<br> sammenlagt brugte vi 218 TWh i
+          1985
+        </p>
+      </div>
+      <div class=textbox>
+        <h3> Danmark vil være CO2 neutral i 2050 <br> hvilket mål har landet i denne proces?</h3>
+        <p>Man har besluttet at i 2030, skal Danmark være færdig med at bruge kul. </p>
+      </div>
+      <div class=textbox>
+        <h3> Hvad vil i vise med jeres visualisering?</h3>
+        <p>Vi vil gerne vise jer Danmark og andre landes energi forbrug<br> pr. indbygger frem til 2018 </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="visualiseringone">
+
+    <!-- Initialize a select button -->
+    <select id="selectButton"></select>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="dataviz"></div>
     <script>
       // set the dimensions and margins of the graph
       const margin = { top: 10, right: 100, bottom: 30, left: 60 },
@@ -63,9 +96,7 @@
             .ease(d3.easeCircleIn);
           d3.select(".line")
             .remove()
-            .append("path")
             .transition()
-            .duration(1500)
             .ease(d3.easeCircleIn);
 
           event = document.getElementById("selectButton").value;
@@ -117,6 +148,7 @@
               .defined(function (d) { return d.primary_energy_consum >= 0; })
               .x(function (d) { return x(d.year); })
               .y(function (d) { return y(d.primary_energy_consum); });
+
             svg
               .append("g")
               .append("path")
@@ -125,24 +157,46 @@
               .attr("d", line)
               .style("fill", "none")
               .style("stroke", "black")
-              .style("stroke-width", 3);
+              .style("stroke-width", 3)
 
             // Dots
             const dot = svg
               .selectAll("circle")
               .data(data)
               .join("circle")
+              .transition()
+              .duration(1500)
               .attr("cx", d => x(d.year))
               .attr("cy", d => y(d.primary_energy_consum))
               .attr("r", 5)
-              .style("fill", "#69b3a2");
+              .style("fill", "red");
           });
         });
     </script>
   </section>
-  <br>
-  <section id="section2">
-    <h1>Datageeks don't exi-</h1>
+
+  <!---------introtwo------->
+
+  <section class="introtwo">
+    <div class="textboxer">
+      <div class=textbox>
+        <h3> Hvad betyder grøn omstilling?</h3>
+        <p> Udfasning af energi kilder som bidrager til drivhuseffekten, og erstat dem med vedvarende energikilder</p>
+      </div>
+      <div class=textbox>
+        <h3> Vi nåede ikke at lave den næste visualisering, men hvad var det egentlig vi ville vise?</h3>
+        <p>Vi ville vise udviklingen i den grønne omstilling og illustrere hvor stor del af vores energi kommer fra
+          vedvarende energi kilder. </p>
+      </div>
+    </div>
+  </section>
+
+  <!----visualiseringtwo----->
+
+  <section class="visualiseringtwo">
+
+    <h4>visualiseringtwo</h4>
+
   </section>
 </body>
 
