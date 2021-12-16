@@ -7,7 +7,7 @@
   <script src="d3.js"></script>
   <link rel="stylesheet" href="styles.css" />
   <!-- Initialize a select button -->
-  <select id="selectButton" onchange="thisFunction(req)"></select>
+  <select id="selectButton" onchange="(event) => onchangeHandler(event)"></select>
 
   <!-- Create a div where the graph will take place -->
   <div id="dataviz"></div>
@@ -47,9 +47,9 @@
           .attr("Value", d => d); // corresponding value returned by the button
       });
 
-      function thisFunction(req) {
-         req.params['entity'] = document.getElementById("selectButton");
-        console.log(req.params['entity']);
+      function onchangeHandler(event) {
+        // document.getElementById("selectButton");
+        console.log(event);
       }
       // som parameter skal forsøges!!!
 
