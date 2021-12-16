@@ -17,10 +17,10 @@
   <section id="section1">
     <script>
       // set the dimensions and margins of the graph
-      const margin = { top: 10, right: 100, bottom: 30, left: 30 },
+      const margin = { top: 10, right: 100, bottom: 30, left: 60 },
         width = 800 - margin.left - margin.right,
         height = 700 - margin.top - margin.bottom;
-
+      const padding = 10;
       // append the svg object to the body of the page
       const svg = d3
         .select("#dataviz")
@@ -48,13 +48,31 @@
       });
 
 
-
-
+      // Getting the value of the select element
       d3.select("#selectButton")
         .on("change", function onchangeHandler(event) {
+          d3.select(".yAxis")
+            .remove()
+            .transition()
+            .duration(1500)
+            .ease(d3.easeCircleIn);
+          d3.select(".xAxis")
+            .remove()
+            .transition()
+            .duration(1500)
+            .ease(d3.easeCircleIn);
+          d3.select(".line")
+            .remove()
+            .append("path")
+            .transition()
+            .duration(1500)
+            .ease(d3.easeCircleIn);
+
           event = document.getElementById("selectButton").value;
           console.log(event);
 
+
+          // Reading the data using the value of the select element as a parameter
           d3.json("/api/energyData/" + event, {
             method: "POST",
           }).then(function (response) {
@@ -62,15 +80,7 @@
             console.log("data", data);
             console.log(response);
 
-
-            /*let newArray = [];
-            function parser() {
-              for (let i = 0; i < data.length; i++) {
-                parseFloat(d => d.primary_energy_consum)
-                return d.primary_energy_consum;
-                console.log(d.primary_energy_consum);
-          }
-        }*/
+            const formatTime = d3.timeParse("%Y")
 
             // Add X axis
             const x = d3
@@ -80,6 +90,7 @@
             svg
               .append("g")
               .attr("transform", `translate(0, ${height})`)
+              .attr("class", "xAxis")
               .call(d3.axisBottom(x));
 
             // Just in case der opstår behov for det: d3.timeParse(%Y)
@@ -87,20 +98,34 @@
             // Add Y axis
             const y = d3
               .scaleLinear()
-              .domain([/*d3.min(data, d => d.primary_energy_consum)*/0,
-          /*d3.max(data, d => d.primary_energy_consum)*/ 2000])
+              .domain([0, d3.max(data, d => +d.primary_energy_consum)])
               .range([height, 0])
-            svg.append("g").call(d3.axisLeft(y));
+            svg
+              .append("g")
+              .attr("class", "yAxis")
+              .call(d3.axisLeft(y))
+              // Add titles to the y axis
+              .append("text")
+              .attr("class", "yAxis_label")
+              .text("TWh")
+              .attr("text-anchor", "middle")
+              .attr("transform", "translate(" + (padding - margin.left) + "," + (height / 2) + ")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+              .attr("color", "black");
 
-            // Initialize line with group a
-            const line = svg
+            // Initialize line
+            const line = d3.line()
+              .defined(function (d) { return d.primary_energy_consum >= 0; })
+              .x(function (d) { return x(d.year); })
+              .y(function (d) { return y(d.primary_energy_consum); });
+            svg
               .append("g")
               .append("path")
               .datum(data)
-              .attr(d3.line()
-                .x(d => x(d.year))
-                .y(d => y(d.primary_energy_consum))
-              );
+              .attr("class", "line")
+              .attr("d", line)
+              .style("fill", "none")
+              .style("stroke", "black")
+              .style("stroke-width", 3);
 
             // Dots
             const dot = svg
@@ -111,44 +136,13 @@
               .attr("cy", d => y(d.primary_energy_consum))
               .attr("r", 5)
               .style("fill", "#69b3a2");
-
-            /* A function that update the chart
-            function update() {
-              // Create new data with the selection?
-              const dataFilter = data.map(data)
-              console.log(dataFilter, "datafilter")
-              // Give these new data to update line
-              line
-                .datum(dataFilter)
-                .transition()
-                .duration(1000)
-                .attr(d3.line()
-                  .x(d => x(d.year))
-                  .y(d => y(d.primary_energy_consum))
-                );
-
-              dot
-                .data(dataFilter)
-                .transition()
-                .duration(1000)
-                .attr("cx", d => x(d.year))
-                .attr("cy", d => y(d.primary_energy_consum));
-            }
-
-            // When the button is changed, run the updateChart function
-            d3.select("#selectButton").on("change", function (event, d) {
-              // recover the option that has been chosen
-              event = d3.select(this).property("value")
-              // run the updateChart function with this selected option
-              update(event)
-            });*/
           });
         });
     </script>
   </section>
   <br>
   <section id="section2">
-    <h1>Hej</h1>
+    <h1>Datageeks don't exi-</h1>
   </section>
 </body>
 
