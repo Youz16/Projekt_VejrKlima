@@ -1,0 +1,141 @@
+@import "https://fonts.googleapis.com/css?family=lato:100";
+
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* ----forside---- */
+
+.forside{
+        
+    position:relative;
+    background-image: url('./mergedimage.jpg');
+    background-size: cover;
+    background-repeat:no-repeat;
+    height: 100vh;
+  }
+  
+
+ .header {
+     width: 90%;
+     top: 20%;
+     left: 20%;
+     transform: translate(-50%,-50%);
+     position:absolute;
+     text-align: center;
+     font-size: 62px;
+     color: rgb(101, 101, 180);
+
+
+     
+     
+}
+
+
+/* intro 1+2 */
+
+html{
+    font-size: 10px;
+    font-family: "lato", Arial, sans-serif ;
+
+}
+
+.introone{
+    width: 100%;
+    height: 60vh;
+    margin: auto;
+    text-align: center;
+    padding-top: 100px;
+    background-image: linear-gradient(180deg, rgb(3, 77, 3), rgb(89, 180, 207),rgb(89, 180, 207),rgb(89, 180, 207),rgb(89, 180, 207),rgb(89, 180, 207),rgb(89, 180, 207));
+}
+
+.textboxer{ 
+    margin-top: 5%;
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    justify-content: space-between;
+     
+}
+ 
+.textbox{
+    flex-basis: 31%;
+    background: #f0cdc2;
+    border-radius: 10px;
+    margin-bottom: 5%;
+    padding: 20px 12px;
+    box-sizing: border-box;
+}
+
+.textbox h3{
+    font-size: 20px;
+}    
+
+.textbox p{
+    font-size: 15px;
+}
+
+/* visualiseringone */
+
+.visualiseringone {
+    width: 100%;
+    min-height: 100vh;
+    background-color:rgb(164, 89, 207) ;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+
+}
+
+.visualiseringone h4 {
+    font-size: 5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid rgb(50, 75, 95);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5rem 10rem;
+}
+
+
+/*introtwo*/
+
+
+
+.introtwo {
+    width: 100%;
+    height: 60vh;
+    margin: auto;
+    text-align: center;
+    padding-top: 100px;
+    background-color: rgb(89, 180, 207);
+    
+}
+
+/*visualiseringtwo*/
+
+.visualiseringtwo{
+    width: 100%;
+    min-height: 100vh;
+    background-color:rgb(89, 107, 207) ;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+}
+
+.visualiseringtwo h4{
+    font-size: 5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid rgb(0, 1, 73);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5rem 10rem;
+}
+
