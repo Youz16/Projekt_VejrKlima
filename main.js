@@ -105,7 +105,7 @@ app.post("/api/energyYear", async (req, res) => {
 app.post("/api/energy/:entity", async (req, res) => {
   try {
     // Lav query
-    const query = `SELECT * FROM energy WHERE entity = ${req.params.entity} ORDER BY entity;`;
+    const query = `SELECT * FROM energy WHERE entity = '${req.params.entity}' ORDER BY entity;`;
     queryData = await client.query(query);
     // Giv svar tilbage til JavaScript
     res.json({

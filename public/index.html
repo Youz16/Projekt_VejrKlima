@@ -7,7 +7,7 @@
   <script src="d3.js"></script>
   <link rel="stylesheet" href="styles.css" />
   <!-- Initialize a select button -->
-  <select id="selectButton" onchange="(event) => onchangeHandler(event)"></select>
+  <select id="selectButton" onchange="onchangeHandler()"></select>
 
   <!-- Create a div where the graph will take place -->
   <div id="dataviz"></div>
@@ -46,21 +46,23 @@
           .text((d) => d.entity) // text showed in the menu
           .attr("Value", d => d); // corresponding value returned by the button
       });
-
-      function onchangeHandler(event) {
-        // document.getElementById("selectButton");
+      
+      d3.select("#selectButton")
+      .on("change", function(event, target){
+        event = document.getElementById("selectButton");
         console.log(event);
-      }
-      // som parameter skal forsøges!!!
+        console.log(target);
+      });
 
-      d3.json("/api/energyData/:entity", {
+      d3.json("/api/energyData/" +"", {
         method: "POST",
       }).then(function (response) {
         const data = response.data; // Hent data ud af response
         console.log("data", data);
         console.log(response);
 
-        function parseFloat(data) {
+        let newArray = [];
+        function parser() {
           for (let i = 0; i < data.length; i++) {
             parseFloat(d => d.primary_energy_consum)
             return d.primary_energy_consum;
