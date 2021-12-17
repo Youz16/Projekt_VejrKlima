@@ -12,6 +12,10 @@
     background-repeat: no-repeat;
 }
 
+.forside h1{
+    text-transform: uppercase;
+}
+
 body {
     height: 100vh;
     background: #1D212B;
