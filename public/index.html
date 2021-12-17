@@ -2,202 +2,291 @@
 <html>
 
 <head>
-  <title>Projektet - Vejr & Klima</title>
-  <script src="d3.js"></script>
-  <link rel="stylesheet" href="styles.css" />
+    <Meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projektet - Vejr & Klima</title>
+    <script src="d3.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+
 </head>
 
 <body>
-  <section class="forside">
 
-    <div class="background-image"></div>
+    <section class="forside">
+        <div class="background-image"></div>
+        <h1>El og grøn omstilling</h1>
+    </section>
 
-    <h1 class="header"> El og grøn omstilling</h1>
+    <!-------intro1---------->
 
-  </section>
+    <section>
+        <div class="container reveal">
+            <h2>Fakta om elforbrug og klimatiltag:</h2>
+            <div class="cards">
+                <div class="textcards">
+                    <h3> Hvilke energikilder brugte Danmark i 1985 og hvor meget?</h3>
+                    <p>I 1985 var vores primære energikilde fossile brændstoffer og kul i Danmark. (Vedvarende
+                        energikilder var ikke særligt udnyttet i den tid)<br><br>
+                        I 1985 producerede Danmark ca. 0.05 TWh i vindenergi, 0,0297 TWh i vandenergi <br><br> (Takket
+                        være vores
+                        vandværker)<br><br> Men så udelukkes det ikke, at størstedelen kom fra kul og fossiler, hvilket
+                        tyder på, at vi sammenlagt fik brugt 218 TWh i 1985.
+                    </p>
+                </div>
+                <div class="textcards">
+                    <h3>Hvilket mål har landet vi denne proces?</h3>
+                    <p>På trods af en række modgange, har vi stadig formået at fremstille noget overbliksdannende og
+                        relativt. Noget som er tankevækkende og ikke rigtigt viser sig uden relevans.<br>
+                        Vi har formået at udarbejde noget, som faktisk bærer betydning og besvarer spørgsmål, hvilket
+                        også var målet.<br><br>
+                        Et andet mål som vi har landet i denne proces er bl.a. måden at tackle konflikter på, samt måden
+                        hvorpå vi inddrages i det, som vi læser til (IT-arkitektur).<br><br>Det at skabe noget
+                        kommunikativt og interaktivt,<br> samt måden man får 2 ukendte ting til at kommunikere
+                        sammen.<br>
+                        (Databasen og JavaScript i dette tilfælde.)
+                    </p>
+                </div>
+                <div class="textcards">
+                    <h3> Hvad vil vi vise med vores visualisering?</h3>
+                    <p>Vi vil gerne vise jer Danmark og andre landes energi forbrug pr. år siden 1985 og frem til 2019,
+                        med henblik på at danne et overblik over stigninger og fald i energiforbrug.
+                        <br><br> Det som kan fortælles, er at det er særdeles tankevækkende, især det at forbruget
+                        udvikler sig som en ting der ligger latent i vores bevidsthed.<br><br>(Vi 'glemmer' at
+                        genoverveje
+                        forbruget af energi, og hvor belastende det er for vores klima og miljø)
+                    </p>
+                </div>
+            </div>
+    </section>
 
-  <!-------intro1---------->
+    <section class="vizOne reveal">
+        <!-- Initialize a select button -->
+        <select id="selectButton"></select>
 
-  <section class="introone">
+        <!-- Create a div where the graph will take place -->
+        <div id="dataviz"></div>
+        <script>
+            // set the dimensions and margins of the graph
+            const margin = {
+                top: 10,
+                right: 100,
+                bottom: 30,
+                left: 60
+            },
+                width = 800 - margin.left - margin.right,
+                height = 700 - margin.top - margin.bottom;
+            const padding = 10;
 
+            // append the svg object to the body of the page
+            const svg = d3
+                .select("#dataviz")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    <div class="textboxer">
-      <div class=textbox>
-        <h3> Hvilke energikilder brugte Danmark og hvor meget i 1985?</h3>
-        <p>I Danmark 1985, var vores primær energi kilde fossilebrændstoffer og kul,<br> vedvarende energikilder var
-          ikke
-          brugt meget,<br> i 1985 producerede Danmark ca. 0.05 TWh i vindenergi,<br> sammenlagt brugte vi 218 TWh i
-          1985
-        </p>
-      </div>
-      <div class=textbox>
-        <h3> Danmark vil være CO2 neutral i 2050 <br> hvilket mål har landet i denne proces?</h3>
-        <p>Man har besluttet at i 2030, skal Danmark være færdig med at bruge kul. </p>
-      </div>
-      <div class=textbox>
-        <h3> Hvad vil i vise med jeres visualisering?</h3>
-        <p>Vi vil gerne vise jer Danmark og andre landes energi forbrug<br> pr. indbygger frem til 2018 </p>
-      </div>
-    </div>
-  </section>
+            //Read the data
+            d3.json("/api/energyEntities", {
+                method: "POST",
+            }).then(function (response) {
+                const data = response.data; // Hent data ud af response
+                console.log("data", data);
 
-  <section class="visualiseringone">
-
-    <!-- Initialize a select button -->
-    <select id="selectButton"></select>
-
-    <!-- Create a div where the graph will take place -->
-    <div id="dataviz"></div>
-    <script>
-      // set the dimensions and margins of the graph
-      const margin = { top: 10, right: 100, bottom: 30, left: 60 },
-        width = 800 - margin.left - margin.right,
-        height = 700 - margin.top - margin.bottom;
-      const padding = 10;
-      // append the svg object to the body of the page
-      const svg = d3
-        .select("#dataviz")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      //Read the data
-      d3.json("/api/energyEntities", {
-        method: "POST",
-      }).then(function (response) {
-        const data = response.data; // Hent data ud af response
-        console.log("data", data);
-
-        // add the options to the button
-        d3.select("#selectButton")
-          .selectAll("myOptions")
-          .data(data)
-          .enter()
-          .append("option")
-          .text((d) => d.entity) // text showed in the menu
-          .attr("Value", d => d.entity); // corresponding value returned by the button
-      });
-
-
-      // Getting the value of the select element
-      d3.select("#selectButton")
-        .on("change", function onchangeHandler(event) {
-          d3.select(".yAxis")
-            .remove()
-            .transition()
-            .duration(1500)
-            .ease(d3.easeCircleIn);
-          d3.select(".xAxis")
-            .remove()
-            .transition()
-            .duration(1500)
-            .ease(d3.easeCircleIn);
-          d3.select(".line")
-            .remove()
-            .transition()
-            .ease(d3.easeCircleIn);
-
-          event = document.getElementById("selectButton").value;
-          console.log(event);
+                // add the options to the button
+                d3.select("#selectButton")
+                    .selectAll("myOptions")
+                    .data(data)
+                    .enter()
+                    .append("option")
+                    .text((d) => d.entity) // text showed in the menu
+                    .attr("Value", d => d.entity); // corresponding value returned by the button
+            });
 
 
-          // Reading the data using the value of the select element as a parameter
-          d3.json("/api/energyData/" + event, {
-            method: "POST",
-          }).then(function (response) {
-            const data = response.data; // Hent data ud af response
-            console.log("data", data);
-            console.log(response);
+            // Getting the value of the select element
+            d3.select("#selectButton")
+                .on("change", function onchangeHandler(event) {
+                    d3.select(".yAxis")
+                        .remove()
+                        .transition()
+                        .duration(1500)
+                        .ease(d3.easeCircleIn);
+                    d3.select(".xAxis")
+                        .remove()
+                        .transition()
+                        .duration(1500)
+                        .ease(d3.easeCircleIn);
+                    d3.select(".line")
+                        .remove()
+                        .transition()
+                        .ease(d3.easeCircleIn);
 
-            const formatTime = d3.timeParse("%Y")
+                    event = document.getElementById("selectButton").value;
+                    console.log(event);
 
-            // Add X axis
-            const x = d3
-              .scaleLinear()
-              .domain([d3.min(data, d => d.year), d3.max(data, d => d.year)])
-              .range([0, width]);
-            svg
-              .append("g")
-              .attr("transform", `translate(0, ${height})`)
-              .attr("class", "xAxis")
-              .call(d3.axisBottom(x));
 
-            // Just in case der opstår behov for det: d3.timeParse(%Y)
+                    // Reading the data using the value of the select element as a parameter
+                    d3.json("/api/energyData/" + event, {
+                        method: "POST",
+                    }).then(function (response) {
+                        const data = response.data; // Hent data ud af response
+                        console.log("data", data);
+                        console.log(response);
 
-            // Add Y axis
-            const y = d3
-              .scaleLinear()
-              .domain([0, d3.max(data, d => +d.primary_energy_consum)])
-              .range([height, 0])
-            svg
-              .append("g")
-              .attr("class", "yAxis")
-              .call(d3.axisLeft(y))
-              // Add titles to the y axis
-              .append("text")
-              .attr("class", "yAxis_label")
-              .text("TWh")
-              .attr("text-anchor", "middle")
-              .attr("transform", "translate(" + (padding - margin.left) + "," + (height / 2) + ")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-              .attr("color", "black");
+                        const formatTime = d3.timeParse("%Y")
 
-            // Initialize line
-            const line = d3.line()
-              .defined(function (d) { return d.primary_energy_consum >= 0; })
-              .x(function (d) { return x(d.year); })
-              .y(function (d) { return y(d.primary_energy_consum); });
+                        // Add X axis
+                        const x = d3
+                            .scaleLinear()
+                            .domain([d3.min(data, d => d.year), d3.max(data, d => d.year)])
+                            .range([0, width]);
+                        svg
+                            .append("g")
+                            .attr("transform", `translate(0, ${height})`)
+                            .attr("class", "xAxis")
+                            .call(d3.axisBottom(x));
 
-            svg
-              .append("g")
-              .append("path")
-              .datum(data)
-              .attr("class", "line")
-              .attr("d", line)
-              .style("fill", "none")
-              .style("stroke", "black")
-              .style("stroke-width", 3)
+                        // Just in case der opstår behov for det: d3.timeParse(%Y)
 
-            // Dots
-            const dot = svg
-              .selectAll("circle")
-              .data(data)
-              .join("circle")
-              .transition()
-              .duration(1500)
-              .attr("cx", d => x(d.year))
-              .attr("cy", d => y(d.primary_energy_consum))
-              .attr("r", 5)
-              .style("fill", "red");
-          });
-        });
+                        // Add Y axis
+                        const y = d3
+                            .scaleLinear()
+                            .domain([0, d3.max(data, d => +d.primary_energy_consum)])
+                            .range([height, 0])
+                        svg
+                            .append("g")
+                            .attr("class", "yAxis")
+                            .call(d3.axisLeft(y))
+                            // Add titles to the y axis
+                            .append("text")
+                            .attr("class", "yAxis_label")
+                            .text("TWh")
+                            .attr("text-anchor", "middle")
+                            .attr("transform", "translate(" + (padding - margin.left) + "," + (height / 2) + ")rotate(-90)") // text is drawn off the screen top left, move down and out and rotate
+                            .attr("color", "black");
+
+                        // Initialize line
+                        const line = d3.line()
+                            .defined(function (d) {
+                                return d.primary_energy_consum >= 0;
+                            })
+                            .x(function (d) {
+                                return x(d.year);
+                            })
+                            .y(function (d) {
+                                return y(d.primary_energy_consum);
+                            });
+
+                        svg
+                            .append("g")
+                            .append("path")
+                            .datum(data)
+                            .attr("class", "line")
+                            .attr("d", line)
+                            .style("fill", "none")
+                            .style("stroke", "black")
+                            .style("stroke-width", 3)
+
+                        // Dots
+                        const dot = svg
+                            .selectAll("circle")
+                            .data(data)
+                            .join("circle")
+                            .transition()
+                            .duration(1500)
+                            .attr("cx", d => x(d.year))
+                            .attr("cy", d => y(d.primary_energy_consum))
+                            .attr("r", 5)
+                            .style("fill", "#FFE100");
+                    });
+                });
+        </script>
+    </section>
+
+    <!---------introtwo------->
+
+    <section>
+        <div class="container reveal">
+            <h2>Det ærgerlige med noget godt ved siden af:</h2>
+            <div class="cards">
+                <div class=textcards>
+                    <h3>Målet om at fremstille 3 visualiseringer lykkedes ikke</h3>
+                    <h4>Men hvad ville vi egentligt vise?</h4>
+                    <br>
+                    <p>Det som vi ville vise, var udviklingen i den grønne omstilling illustreret, med henblik på at
+                        besvare på hvor stor del af vores energi der stammer
+                        fra vedvarende energi kilder.<br><br>Grunden hertil er nemlig at man ser grønnere på tingene i
+                        dag.<br><br>(dog er alt bare ikke guld og grønne skove).
+                    </p>
+                </div>
+                <div class=textcards>
+                    <h3>Hvad betyder grøn omstilling?</h3>
+                    <p> Grøn omstilling er basalt set en udfasning og erstattelse af energikilder som bidrager til
+                        drivhuseffekten, ved udvikling og benyttelse af vedvarende
+                        energikilder.<br><br>
+                        Dels har vi nye klimamål, og dels har vi FNs verdensmål, som klart er med til at hive verden med
+                        sig, for at sikre bedre levevilkår i flere år endnu.<br><br>
+                        Et initiativ som beviser dette er bl.a. at det er
+                        blevet besluttet, fra og med 2030 skal brugen
+                        af kul mindskes i Danmark med hele 100%.<br><br>Derudover ses også en række initiativer mod de
+                        heftige CO2-udslip fra brændstofsdrevne biler.<br><br>EU har bl.a. truffet beslutningen om at
+                        sænke
+                        CO2-udslippet fra forbrændingsmotorer allerede i
+                        2030.<br>(Det er et skridt mod den rette vej!)
+                    </p>
+                </div>
+                <div class=textcards>
+                    <h3>Hvad har vi opnået af viden i denne proces?</h3>
+                    <p>Undervejs i denne proces, har vi haft muligheden for at tage ny viden til os, og inddrage den i
+                        vores arbejdsproces.<br>
+                        Vi har nemlig draget viden til os, som bl.a. indebærer løsning af konflikter som et team,
+                        hvilket også kunne afspejle situationen i de reelle arbejdspladser.<br><br>
+                        Derudover har der også været en del uforventede problematikker, som selvfølgelig blev løst med
+                        tid (Ellers vil vi ikke have været her)<br>
+                        Det har bl.a. sikret en oplevelse af virkeligheden på en arbejdsplads, hvor man ikke altid bør
+                        regne med gode dage og solskin.<br><br>
+                        Det essentielle som vi har taget til os, er simpelthen erfaring, viden og vision. Det at
+                        kunne se sit arbejde i live er en anden sag,<br>som bør betragtes som en belønning for de mange
+                        timer man investerer i det.
+                        tid (Ellers vil vi ikke have været her)Det har bl.a. sikret en oplevelse af virkeligheden på en
+                        arbejdsplads, hvor man ikke altid bør
+                        <br><br>Tiden som investeres i et stykke arbejde er derfor en vigtig faktor, som ofte
+                        videregiver ambitionsniveauet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!----vizTwo----->
+
+    <section>
+        <div class="container reveal">
+            <h2>visualisering #2?
+                <br>Beklager, 404...
+            </h2>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            let reveals = document.querySelectorAll('.reveal');
+
+            for (let i = 0; i < reveals.length; i++) {
+                let windowHeight = window.innerHeight;
+                let revealTop = reveals[i].getBoundingClientRect().top;
+                let revealPoint = 150;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
     </script>
-  </section>
-
-  <!---------introtwo------->
-
-  <section class="introtwo">
-    <div class="textboxer">
-      <div class=textbox>
-        <h3> Hvad betyder grøn omstilling?</h3>
-        <p> Udfasning af energi kilder som bidrager til drivhuseffekten, og erstat dem med vedvarende energikilder</p>
-      </div>
-      <div class=textbox>
-        <h3> Vi nåede ikke at lave den næste visualisering, men hvad var det egentlig vi ville vise?</h3>
-        <p>Vi ville vise udviklingen i den grønne omstilling og illustrere hvor stor del af vores energi kommer fra
-          vedvarende energi kilder. </p>
-      </div>
-    </div>
-  </section>
-
-  <!----visualiseringtwo----->
-
-  <section class="visualiseringtwo">
-
-    <h4>visualiseringtwo</h4>
-
-  </section>
 </body>
 
 </html>
